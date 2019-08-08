@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="linux,ssh,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="登录远程Linux  VPS/服务器，切换到要登录的用户执行：1234567root@vpser:~# ssh-keygen -t rsa //先运行这个命令Generating public/private rsa key pair.Enter file in which to save the key (/root/.ssh/id_rsa):        //直接回车Created dire">
+<meta name="keywords" content="linux,ssh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ssh私钥公钥登录远端服务器">
+<meta property="og:url" content="http://www.acceleratorl.com/2019/06/19/使用ssh私钥公钥登录远端服务器/index.html">
+<meta property="og:site_name" content="screamff的博客">
+<meta property="og:description" content="登录远程Linux  VPS/服务器，切换到要登录的用户执行：1234567root@vpser:~# ssh-keygen -t rsa //先运行这个命令Generating public/private rsa key pair.Enter file in which to save the key (/root/.ssh/id_rsa):        //直接回车Created dire">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-19T07:56:30.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用ssh私钥公钥登录远端服务器">
+<meta name="twitter:description" content="登录远程Linux  VPS/服务器，切换到要登录的用户执行：1234567root@vpser:~# ssh-keygen -t rsa //先运行这个命令Generating public/private rsa key pair.Enter file in which to save the key (/root/.ssh/id_rsa):        //直接回车Created dire">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.acceleratorl.com/2019/06/19/使用ssh私钥公钥登录远端服务器/">
+
+
+
+
+
+  <title>使用ssh私钥公钥登录远端服务器 | screamff的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">screamff的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">提出好问题是解决问题的第一步</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.acceleratorl.com/2019/06/19/使用ssh私钥公钥登录远端服务器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="阿鬼">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="screamff的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用ssh私钥公钥登录远端服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-19T15:46:58+08:00">
+                2019-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="登录远程Linux-VPS-服务器，切换到要登录的用户执行："><a href="#登录远程Linux-VPS-服务器，切换到要登录的用户执行：" class="headerlink" title="登录远程Linux  VPS/服务器，切换到要登录的用户执行："></a>登录远程Linux  VPS/服务器，切换到要登录的用户执行：</h5><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@vpser:~<span class="comment"># ssh-keygen -t rsa //先运行这个命令</span></span><br><span class="line">Generating public/<span class="keyword">private</span> rsa key pair.</span><br><span class="line">Enter <span class="built_in">file</span> <span class="keyword">in</span> which <span class="built_in">to</span> save <span class="keyword">the</span> key (/root/.ssh/id_rsa):       <span class="comment"> //直接回车</span></span><br><span class="line">Created <span class="built_in">directory</span> <span class="string">'/root/.ssh'</span>.</span><br><span class="line">Enter passphrase (<span class="literal">empty</span> <span class="keyword">for</span> no passphrase):      <span class="comment"> //输入密钥密码</span></span><br><span class="line">Enter same passphrase again:                    <span class="comment"> //重复密钥密码</span></span><br><span class="line">Your identification has been saved <span class="keyword">in</span> /root/.ssh/id_rsa.      <span class="comment"> //提示公钥和私钥已经存放在/root/.ssh/目录下</span></span><br></pre></td></tr></table></figure>
+<h5 id="下载服务器私钥"><a href="#下载服务器私钥" class="headerlink" title="下载服务器私钥"></a>下载服务器私钥</h5><p>我使用的win10的开发者ubuntu，用scp命令下载到本地，也可用ftp等下载（服务器启用该功能）</p>
+<blockquote>
+<p>sudo scp -P 26820(需要指定ssh端口的话) root@[地址]:/root/.ssh/id_rsa /本地目录</p>
+</blockquote>
+<ol>
+<li>将id_rsa.pub文件放到/root/.ssh/下面（如果没有则创建此目录），并重命名为：authorized_keys<br>（如果是在Linux服务器上生成的密钥直接执行：mv /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys），<br>再执行：chmod 600 /root/.ssh/authorized_keys 修改权限。</li>
+<li>修改/etc/ssh/sshd_config 文件，将RSAAuthentication 和 PubkeyAuthentication 后面的值都改成yes ，保存。</li>
+<li>重启sshd服务，service sshd restart</li>
+</ol>
+<blockquote>
+<p>测试:先将id_rsa的权限改为600，然后ssh [用户]@[地址] -i [id_rsa路径]</p>
+</blockquote>
+<ol>
+<li>修改<code>/etc/ssh/sshd_config</code> 文件,之后就无法使用传统的密码登录了。<br>将PasswordAuthentication yes 修改成 PasswordAuthentication no<br>ChallengeResponseAuthentication改为no</li>
+<li>重启sshd服务<br><code>service sshd restart</code></li>
+</ol>
+<p>ssh连接时要带很多参数比较麻烦，此时可以在本地.ssh文件夹新建一个配置文件config<br>内容如下<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host remote</span><br><span class="line">    HostName 12.34.56.78</span><br><span class="line">   <span class="built_in"> User </span>admin</span><br><span class="line">   <span class="built_in"> Port </span>52193</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure></p>
+<p>之后直接ssh remote就行,remote就是个别名起个好记的就行，实际地址为HostName一栏<br>使用scp时也可以使用此别名,例：<br>scp remote:/远程目录</p>
+<h5 id="ssh使用git时"><a href="#ssh使用git时" class="headerlink" title="ssh使用git时"></a>ssh使用git时</h5><p>参照廖雪峰的git教程搭建远程仓库<br>使用非标准ssh22端口时，需要指定端口时<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">clone</span> <span class="title">ssh</span>://git@hostname:port/.../xxx.git</span><br></pre></td></tr></table></figure></p>
+<p>也可以引用.ssh下的config，例如我有个gitresp的别名配置<br><code>git clone ssh://git@gitresp/home/git/sample.git</code><br>关联后，使用命令<code>git push -u origin master</code>第一次推送master分支的所有内容；<br>此后，每次本地提交后，只要有必要，就可以使用命令<code>git push origin master</code>推送最新修改；</p>
+<p>那么如果我们想限制git用户，禁止其进行SSH登陆进行操作，我们可以将git用户的shell换成git-shell这个工具：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">cat</span> /etc/shells   # see <span class="keyword">if</span> `git-<span class="keyword">shell</span>` <span class="keyword">is</span> already in there.  If not...</span><br><span class="line">$ which git-<span class="keyword">shell</span>   # <span class="keyword">make</span> sure git-<span class="keyword">shell</span> <span class="keyword">is</span> installed <span class="keyword">on</span> your <span class="built_in">system</span>.</span><br><span class="line">$ sudo <span class="keyword">vim</span> /etc/shells  # <span class="built_in">and</span> <span class="built_in">add</span> the path <span class="keyword">to</span> git-<span class="keyword">shell</span> from <span class="keyword">last</span> <span class="keyword">command</span></span><br><span class="line">我们看到，首先需要找到git-<span class="keyword">shell</span>的安装位置，如果没有被添加在/etc/shells中，我们需要手动将其添加进去</span><br><span class="line">（通常git-<span class="keyword">shell</span>在/usr/bin/git-<span class="keyword">shell</span>中）</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/ssh/" rel="tag"># ssh</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/19/python协程/" rel="next" title="python协程，迭代器">
+                <i class="fa fa-chevron-left"></i> python协程，迭代器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/01/构建python包/" rel="prev" title="构建python包">
+                构建python包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="阿鬼">
+          <p class="site-author-name" itemprop="name">阿鬼</p>
+           
+              <p class="site-description motion-element" itemprop="description">less is more</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/screamff" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#登录远程Linux-VPS-服务器，切换到要登录的用户执行："><span class="nav-number">1.</span> <span class="nav-text">登录远程Linux  VPS/服务器，切换到要登录的用户执行：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下载服务器私钥"><span class="nav-number">2.</span> <span class="nav-text">下载服务器私钥</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ssh使用git时"><span class="nav-number">3.</span> <span class="nav-text">ssh使用git时</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">阿鬼</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 支持
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
