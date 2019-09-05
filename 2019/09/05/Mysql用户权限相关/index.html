@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="linux,mysql,">
+  <meta name="keywords" content="mysql,linux,">
 
 
 
@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="概览linux服务器端版本:mysql-server 5.7进入mysql数据库，参考以下命令：12grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;password&apos;;flush privileges; privileges 可以省略第一个是数据库，可以改成允许访问的数据库名称第二个 是数据库的表名称，* 代表允许访问任意的表roo">
-<meta name="keywords" content="linux,mysql">
+<meta name="description" content="概览linux服务器端版本:mysql-server 5.7进入mysql数据库，参考以下命令：12grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;password&apos;;flush privileges; privileges 可以省略第一个  是数据库，可以改成允许访问的数据库名称第二个  是数据库的表名称，* 代表允许访问任意的表">
+<meta name="keywords" content="mysql,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mysql用户权限相关">
 <meta property="og:url" content="http://www.acceleratorl.com/2019/09/05/Mysql用户权限相关/index.html">
 <meta property="og:site_name" content="screamff的博客">
-<meta property="og:description" content="概览linux服务器端版本:mysql-server 5.7进入mysql数据库，参考以下命令：12grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;password&apos;;flush privileges; privileges 可以省略第一个是数据库，可以改成允许访问的数据库名称第二个 是数据库的表名称，* 代表允许访问任意的表roo">
+<meta property="og:description" content="概览linux服务器端版本:mysql-server 5.7进入mysql数据库，参考以下命令：12grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;password&apos;;flush privileges; privileges 可以省略第一个  是数据库，可以改成允许访问的数据库名称第二个  是数据库的表名称，* 代表允许访问任意的表">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-05T01:41:43.126Z">
+<meta property="og:updated_time" content="2019-09-05T01:58:19.501Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql用户权限相关">
-<meta name="twitter:description" content="概览linux服务器端版本:mysql-server 5.7进入mysql数据库，参考以下命令：12grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;password&apos;;flush privileges; privileges 可以省略第一个是数据库，可以改成允许访问的数据库名称第二个 是数据库的表名称，* 代表允许访问任意的表roo">
+<meta name="twitter:description" content="概览linux服务器端版本:mysql-server 5.7进入mysql数据库，参考以下命令：12grant all privileges on *.* to &apos;root&apos;@&apos;%&apos; identified by &apos;password&apos;;flush privileges; privileges 可以省略第一个  是数据库，可以改成允许访问的数据库名称第二个  是数据库的表名称，* 代表允许访问任意的表">
 
 
 
@@ -341,7 +341,7 @@
 
       
         <h4 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h4><p>linux服务器端版本:mysql-server 5.7<br><br>进入mysql数据库，参考以下命令：<br><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'root'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'password'</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br></pre></td></tr></table></figure></p>
-<p>privileges 可以省略<br>第一个<em>是数据库，可以改成允许访问的数据库名称<br>第二个</em> 是数据库的表名称，* 代表允许访问任意的表<br>root代表远程登录使用的用户名，可以自定义<br>%代表允许任意ip登录，如果你想指定特定的IP，可以把%替换掉就可以了<br>password代表远程登录时使用的密码，可以自定义<br>flush privileges;这是让权限立即生效</p>
+<p>privileges 可以省略<br>第一个 <em> 是数据库，可以改成允许访问的数据库名称<br>第二个 </em> 是数据库的表名称，* 代表允许访问任意的表<br>root代表远程登录使用的用户名，可以自定义<br>%代表允许任意ip登录，如果你想指定特定的IP，可以把%替换掉就可以了<br>password代表远程登录时使用的密码，可以自定义<br>flush privileges;这是让权限立即生效</p>
 <h4 id="grant-普通数据用户，查询、插入、更新、删除-数据库中所有表数据的权利"><a href="#grant-普通数据用户，查询、插入、更新、删除-数据库中所有表数据的权利" class="headerlink" title="grant 普通数据用户，查询、插入、更新、删除 数据库中所有表数据的权利"></a>grant 普通数据用户，查询、插入、更新、删除 数据库中所有表数据的权利</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">select</span> <span class="keyword">on</span> testdb.* <span class="keyword">to</span> common_user@<span class="string">'%'</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">insert</span> <span class="keyword">on</span> testdb.* <span class="keyword">to</span> common_user@<span class="string">'%'</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">update</span> <span class="keyword">on</span> testdb.* <span class="keyword">to</span> common_user@<span class="string">'%'</span>;</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">delete</span> <span class="keyword">on</span> testdb.* <span class="keyword">to</span> common_user@<span class="string">'%'</span>;</span><br></pre></td></tr></table></figure>
 <h4 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户"></a>创建新用户</h4><p>通过root用户登录之后创建<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> testuser@localhost <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> ;</span><br><span class="line"><span class="comment"># 创建新用户，用户名为testuser，密码为123456;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> testuser@localhost <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> ;</span><br><span class="line"><span class="comment"># 设置用户testuser，可以在本地访问mysql;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> testuser@<span class="string">"%"</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">"123456"</span> ;</span><br><span class="line"><span class="comment"># 设置用户testuser，可以在远程访问mysql;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span> ;</span><br><span class="line"><span class="comment"># mysql 新设置用户或更改密码后需用flush privileges刷新MySQL的系统权限相关表，</span></span><br><span class="line">否则会出现拒绝访问，还有一种方法，就是重新启动mysql服务器，来使新设置生效</span><br></pre></td></tr></table></figure></p>
 <h4 id="更改数据库名"><a href="#更改数据库名" class="headerlink" title="更改数据库名"></a>更改数据库名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">new</span> <span class="keyword">database</span>;</span><br><span class="line">mysqldump olddatabase | mysql -u root -p newdatabase  <span class="comment"># 在linux命令行执行</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> olddatabase;</span><br></pre></td></tr></table></figure>
@@ -363,9 +363,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
-          
             <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
         </div>
       
