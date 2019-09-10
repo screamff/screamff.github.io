@@ -6,7 +6,7 @@
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -160,7 +160,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -170,7 +170,7 @@
   <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -270,20 +270,20 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.acceleratorl.com/2019/09/10/apt与apt-get/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="阿鬼">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="screamff的博客">
     </span>
 
@@ -348,7 +348,7 @@
 </blockquote>
 <p>ubuntu 16.04 的新特性中介绍了 apt 命令， 实际上 apt 的第一个稳定版本在 2014 年就已经发布，随着 2016 年 ubuntu 16.04 的发布才被人们关注。<br>apt install package 逐渐取代 apt-get install package，变得更为常见。最终，许多其它的 linux 发行版紧跟 ubuntu 的步伐，开始鼓励用户使用 apt 取代 apt-get。<br>你可能会疑惑 apt 和 apt-get 有什么区别，假如它们有相同的命令结构，新 apt 命令图个啥？ 比 apt-get 更好？你是应该使用新的 apt 命令，还是坚持已经够好的旧 apt-get 命令？<br>本篇文章讲述了这些问题，希望读完之后，大家能有清晰的认知。<br>此处对 Linux Mint 用户多说几句，几年前， Linux Mint 实现了一个 python 封装的 apt ，本质上使用的是 apt-get ，但是提供了更加友好的  option 选项。本篇文章讨论的 apt 和 Linux Mint 中的 apt 不是一个东西。<br>在正式讨论 apt 和 apt-get 命令的区别之前，让我们看一下这些命令的诞生背景以及它们试图实现的目标。</p>
 <h3 id="为什么一开始引入-apt-？"><a href="#为什么一开始引入-apt-？" class="headerlink" title="为什么一开始引入 apt ？"></a>为什么一开始引入 apt ？</h3><p>Debian ，作为 ubuntu、Linux mint 等其它基本操作系统的前身，有一个强大的包管理系统，每个组件和应用被内置在一个包中安装在你的系统里。Debian 使用了一套名为 Adbanced Package Tool（APT）的工具集，不要把它与 apt 命令混淆，不是同一个东西。<br>有许多不同的工具可以与 APT 交互，允许你在基于 Debian 的 linux 发行版中安装、移除、管理各种包，apt-get 是其中一种非常流行的命令行工具，另一个流行工具叫 Aptitude，同时拥有图形用户界面和命令行选项。<br>如果你读过<a href="https://itsfoss.com/apt-get-linux-guide/" target="_blank" rel="noopener">guide on apt-get commands</a>，你可能了解很多类似的命令比如 apt-cache，那么问题就来了。<br>这些底层级的命令有太多功能不会被普通 linux 用户用到，而最常用的包管理命令却分散在 apt-get 和 apt-cache 中。<br>于是便引入 apt 命令来解决这个问题，apt 包含了 apt-get 和 apt-cache 中最广泛使用的特性，抛弃了模糊和几乎不会用到的特性，它还可以管理 apt.conf 文件。</p>
-<h3 id="apt-和-apt-get-的区别"><a href="#apt-和-apt-get-的区别" class="headerlink" title="apt 和 apt-get 的区别"></a>apt 和 apt-get 的区别</h3><p>有了 apt，你就不用从 apt-get 命令转移到 apt-cache 命令，apt 更加结构化，并且提供了管理软件包的必要选项。<br><strong>一句话总结： apt = apt-get 和 apt-cache 中的常用命令行选项。</strong><br>现在，所有必要工具都包含在 apt 命令中了，你再也不会淹没在大量令人疑惑的命令行选项中，apt 的主要目的是提供一种高效的包管理方式，并且对用户友好。<br>正如 Debian 所说：“对用户友好”。apt 虽然命令选项少了，但是在保持够用的同时更加结构化 ，除此之外，它默认开启了对最终用户很有帮助的选项。<br>比如你可以在安装或卸载时看到进度条。<br><img src="/images/aptprocessingbar.PNG" alt=""><br>apt 还会在你更新软件库的时候提示你可以升级的软件包数量。<br><img src="/images/aptupdate.PNG" alt=""></p>
+<h3 id="apt-和-apt-get-的区别"><a href="#apt-和-apt-get-的区别" class="headerlink" title="apt 和 apt-get 的区别"></a>apt 和 apt-get 的区别</h3><p>有了 apt，你就不用从 apt-get 命令转移到 apt-cache 命令，apt 更加结构化，并且提供了管理软件包的必要选项。<br><strong>一句话总结： apt = apt-get 和 apt-cache 中的常用命令行选项。</strong><br>现在，所有必要工具都包含在 apt 命令中了，你再也不会淹没在大量令人疑惑的命令行选项中，apt 的主要目的是提供一种高效的包管理方式，并且对用户友好。<br>正如 Debian 所说：“对用户友好”。apt 虽然命令选项少了，但是在保持够用的同时更加结构化 ，除此之外，它默认开启了对最终用户很有帮助的选项。<br>比如你可以在安装或卸载时看到进度条。<br><img src="/images/aptprocessingbar.PNG" alt><br>apt 还会在你更新软件库的时候提示你可以升级的软件包数量。<br><img src="/images/aptupdate.PNG" alt></p>
 <h3 id="apt-和-apt-get-命令行选项的区别"><a href="#apt-和-apt-get-命令行选项的区别" class="headerlink" title="apt 和 apt-get 命令行选项的区别"></a>apt 和 apt-get 命令行选项的区别</h3><p>虽然 apt 确实有一些和 apt-get 相似的命令行选项，但是 apt 并不向后兼容 apt-get ，这意味着如果你只是简单的用 apt 替换 apt-get 的部分，并不总是有效的。</p>
 <p>以下列出了 apt 替换 apt-get 和 apt-cache 的命令行选项部分。</p>
 <table class="wp-block-table tg"><tbody><tr><th>apt command</th><th>the command it replaces</th><th>function of the command</th></tr><tr><td>apt install</td><td>apt-get install</td><td>Installs a package</td></tr><tr><td>apt remove</td><td>apt-get remove</td><td>Removes a package</td></tr><tr><td>apt purge</td><td>apt-get purge</td><td>Removes package with configuration</td></tr><tr><td>apt update</td><td>apt-get update</td><td>Refreshes repository index</td></tr><tr><td>apt upgrade</td><td>apt-get upgrade</td><td>Upgrades all upgradable packages</td></tr><tr><td>apt autoremove</td><td>apt-get autoremove</td><td>Removes unwanted packages</td></tr><tr><td>apt full-upgrade</td><td>apt-get dist-upgrade</td><td>Upgrades packages with auto-handling of dependencies</td></tr><tr><td>apt search</td><td>apt-cache search</td><td>Searches for the program</td></tr><tr><td>apt show</td><td>apt-cache show</td><td>Shows package details</td></tr></tbody></table>
@@ -458,7 +458,7 @@
       
 
       <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="阿鬼">
           <p class="site-author-name" itemprop="name">阿鬼</p>
            
